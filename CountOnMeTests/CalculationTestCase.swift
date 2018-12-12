@@ -10,32 +10,85 @@ import XCTest
 @testable import CountOnMe
 
 class CalculationTestCase: XCTestCase {
+	var calculation: Calculation!
 
     override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+       super.setUp()
+		calculation = Calculation()
     }
 
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
+	func testGivenStringNumbersIsEmty_WhenAddingNumberTwo_ThenStringNumberShouldBeTwo() {
 
-	func testGivenStringNumbersIsEmty_WhenAddingNumberTwo_ThenStringNumberSouldBeTwo() {
-		let calculation = Calculation()
 		calculation.addNewNumber("2")
 
 		XCTAssertEqual(calculation.stringNumbers[0], "2")
 	}
 
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
+	func testGivenStringNumbersIsTree_WhenAddingNumberTwo_ThenStringNumberShouldBeThirtyTwo() {
+		calculation.stringNumbers[0] = "3"
 
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
+		calculation.addNewNumber("2")
 
+		XCTAssertEqual(calculation.stringNumbers[0], "32")
+	}
+
+	func testGivenStringNumbersIsTwentyTwo_WhenAddingPlus_ThenStringNumberShouldBeTwentyTwoAndOperatorSouldBePlus() {
+		calculation.stringNumbers[0] = "22"
+
+		calculation.addOperation("+")
+
+		XCTAssertEqual(calculation.stringNumbers[0], "22")
+		XCTAssertEqual(calculation.operators[0], "+")
+	}
+
+	func testGivenStringNumbersIsTwentyTreeAndFiveOperatorIsPlus_WhenGettingText_ThenTextSouldBeTwentyTreePlusFive() {
+		calculation.stringNumbers = ["23", "5"]
+		calculation.operators = ["+", "+"]
+
+		calculation.calculateTotal()
+
+		XCTAssertEqual(calculation.text, "23+5")
+	}
+
+	func testGivenStringNumbersIsTreeAndFiveOperatorIsPlus_WhenGettingExpresion_ThenExpressionIsCorrect() {
+		calculation.stringNumbers = ["3", "5"]
+		calculation.operators = ["+", "+"]
+
+		XCTAssertTrue(calculation.isExpressionCorrect)
+	}
+
+	func testGivenStringNumbersIsTreeOperatorIsPlus_WhenGAddingPlus_ThenExpressionIsNotCorrect() {
+		calculation.stringNumbers = ["3"]
+		calculation.addOperation("+")
+
+		XCTAssertFalse(calculation.isExpressionCorrect)
+	}
+
+	func testGivenStringNumbersIsTwentyTreeAndFiveOperatorIsPlus_WhenGettingResult_ThenTotalSouldBeTwentyHeight() {
+		calculation.stringNumbers = ["23", "5"]
+		calculation.operators = ["+", "+"]
+
+		calculation.calculateTotal()
+
+		XCTAssertEqual(calculation.total, 28)
+	}
+
+	func testGivenStringNumbersIsFortyOneAndTreeOperatorIsMinus_WhenGettingResult_ThenTotalSouldBeThirtyHeight() {
+		calculation.stringNumbers = ["41", "3"]
+		calculation.operators = ["+", "-"]
+
+		calculation.calculateTotal()
+
+		XCTAssertEqual(calculation.total, 38)
+	}
+
+	func testGivenStringNumberIsFortyOneAndTreeOperatorIsMinus_WhenClear_ThenStringNumberSouldBeEmptyAndOperatorIsPlus() {
+		calculation.stringNumbers = ["41", "3"]
+		calculation.operators = ["+", "-"]
+
+		calculation.clear()
+
+		XCTAssertEqual(calculation.stringNumbers, [""])
+		XCTAssertEqual(calculation.operators, ["+"])
+	}
 }

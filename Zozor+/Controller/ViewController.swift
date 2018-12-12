@@ -32,7 +32,7 @@ class ViewController: UIViewController {
         	calculation.addOperation("+")
             updateDisplay()
 		} else {
-			alertWrongOperator()
+			displayAlert(message: "Expression incorrecte !")
 		}
     }
 
@@ -42,7 +42,7 @@ class ViewController: UIViewController {
             calculation.addOperation("-")
             updateDisplay()
         } else {
-			alertWrongOperator()
+			displayAlert(message: "Expression incorrecte !")
 		}
     }
 
@@ -53,7 +53,11 @@ class ViewController: UIViewController {
 			textView.text += "=\(calculation.total)"
 			calculation.clear()
 		} else {
-			alertWrongEgal()
+			if calculation.stringNumbers.count == 1 {
+				displayAlert(message: "Démarrez un nouveau calcul !")
+			} else {
+				displayAlert(message: "Entrez une expression correcte !")
+			}
 		}
     }
 
@@ -64,23 +68,10 @@ class ViewController: UIViewController {
 		textView.text = calculation.text
     }
 
-	private func alertWrongOperator() {
-		// Display an alertController if add an operator at the wrong place
-		let alertVC = UIAlertController(title: "Zéro!", message: "Expression incorrecte !", preferredStyle: .alert)
+	private func displayAlert(message: String) {
+		// Display an alertController with a message if add an operator or egal at the wrong place
+		let alertVC = UIAlertController(title: "Zéro!", message: "\(message)", preferredStyle: .alert)
 		alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
 		self.present(alertVC, animated: true, completion: nil)
-	}
-
-	private func alertWrongEgal() {
-		// Display an alertController if calculate the result of a bad expression
-		if calculation.stringNumbers.count == 1 {
-			let alertVC = UIAlertController(title: "Zéro!", message: "Démarrez un nouveau calcul !", preferredStyle: .alert)
-			alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-			self.present(alertVC, animated: true, completion: nil)
-		} else {
-			let alertVC = UIAlertController(title: "Zéro!", message: "Entrez une expression correcte !", preferredStyle: .alert)
-			alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-			self.present(alertVC, animated: true, completion: nil)
-			}
 	}
 }
