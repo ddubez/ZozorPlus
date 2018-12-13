@@ -60,6 +60,12 @@ class ViewController: UIViewController {
 			}
 		}
     }
+	// MARK: - BONUS
+	@IBAction func deleteLast(sender: UIButton) {
+		// delete the last number or operator
+		calculation.deleteLastImput()
+		updateDisplay()
+	}
 
     // MARK: - Method
 

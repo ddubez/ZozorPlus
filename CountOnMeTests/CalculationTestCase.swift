@@ -91,4 +91,26 @@ class CalculationTestCase: XCTestCase {
 		XCTAssertEqual(calculation.stringNumbers, [""])
 		XCTAssertEqual(calculation.operators, ["+"])
 	}
+
+	func testGivenCalculationIsFortyOnePlusHeight_WhenDeleteLast_ThenCalculationSouldBeFortyOnePlus() {
+		calculation.stringNumbers = ["41", "8"]
+		calculation.operators = ["+", "+"]
+
+		calculation.deleteLastImput()
+
+		XCTAssertEqual(calculation.stringNumbers, ["41", ""])
+		XCTAssertEqual(calculation.operators, ["+", "+"])
+		XCTAssertEqual(calculation.text, "41+")
+	}
+
+	func testGivenCalculationIsFortyOnePlusHeightMinus_WhenDeleteLast_ThenCalculationSouldBeFortyOnePlusHeight() {
+		calculation.stringNumbers = ["41", "8", ""]
+		calculation.operators = ["+", "+", "-"]
+
+		calculation.deleteLastImput()
+
+		XCTAssertEqual(calculation.stringNumbers, ["41", "8"])
+		XCTAssertEqual(calculation.operators, ["+", "+"])
+		XCTAssertEqual(calculation.text, "41+8")
+	}
 }

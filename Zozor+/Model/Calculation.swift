@@ -82,4 +82,18 @@ class Calculation {
 		total = 0
 	}
 
+	// BONUS :
+	func deleteLastImput() {
+		// delete the last number or operator
+		if isExpressionCorrect {
+			if let lastNumber = stringNumbers.last {
+				var lastNumberMutable = lastNumber
+				lastNumberMutable.removeLast(1)
+				stringNumbers[stringNumbers.count-1] = lastNumberMutable
+			}
+		} else {
+			stringNumbers.removeLast(1)
+			operators.removeLast(1)
+		}
+	}
 }
