@@ -28,27 +28,17 @@ class ViewController: UIViewController {
 
     @IBAction func plus() {
 		// add operator for addition
-        if calculation.isExpressionCorrect {
-        	calculation.addOperation("+")
-            updateDisplay()
-		} else {
-			displayAlert(message: "Expression incorrecte !")
-		}
+		addAn(operatorTapped: "+")
     }
 
     @IBAction func minus() {
 		// add operator for substraction
-        if calculation.isExpressionCorrect {
-            calculation.addOperation("-")
-            updateDisplay()
-        } else {
-			displayAlert(message: "Expression incorrecte !")
-		}
+		addAn(operatorTapped: "-")
     }
 
     @IBAction func equal() {
 		// calculate the result
-		if calculation.isExpressionCorrect {
+		if calculation.canAddOperator {
 			calculation.calculateTotal()
 			textView.text += "=\(calculation.total)"
 			calculation.clear()
@@ -79,5 +69,14 @@ class ViewController: UIViewController {
 		let alertVC = UIAlertController(title: "Zéro!", message: "\(message)", preferredStyle: .alert)
 		alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
 		self.present(alertVC, animated: true, completion: nil)
+	}
+
+	private func addAn(operatorTapped: String) {
+		// add operator
+		if calculation.addOperator(operatorTapped) {
+			updateDisplay()
+		} else {
+			displayAlert(message: "Expression incorrecte !")
+		}
 	}
 }

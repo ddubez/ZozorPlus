@@ -36,7 +36,7 @@ class Calculation {
 	}
 
 	// verify if expression is correct before calculate a total or adding a operator
-	var isExpressionCorrect: Bool {
+	var canAddOperator: Bool {
 		if let stringNumber = stringNumbers.last {
 			if stringNumber.isEmpty {
 				return false
@@ -57,9 +57,13 @@ class Calculation {
 	}
 
 	// add an operator in a calculation
-	func addOperation(_ operatorToAdd: String) {
-		operators.append(operatorToAdd)
-		stringNumbers.append("")
+	func addOperator(_ operatorToAdd: String) -> Bool {
+		if canAddOperator {
+			operators.append(operatorToAdd)
+			stringNumbers.append("")
+			return true
+		}
+		return false
 	}
 
 	// calculate the total
@@ -85,7 +89,7 @@ class Calculation {
 	// BONUS :
 	func deleteLastImput() {
 		// delete the last number or operator
-		if isExpressionCorrect {
+		if canAddOperator {
 			if let lastNumber = stringNumbers.last {
 				var lastNumberMutable = lastNumber
 				lastNumberMutable.removeLast(1)

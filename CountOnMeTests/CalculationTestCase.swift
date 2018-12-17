@@ -35,8 +35,9 @@ class CalculationTestCase: XCTestCase {
 	func testGivenStringNumbersIsTwentyTwo_WhenAddingPlus_ThenStringNumberShouldBeTwentyTwoAndOperatorSouldBePlus() {
 		calculation.stringNumbers[0] = "22"
 
-		calculation.addOperation("+")
+		let operation = calculation.addOperator("+")
 
+		XCTAssertTrue(operation)
 		XCTAssertEqual(calculation.stringNumbers[0], "22")
 		XCTAssertEqual(calculation.operators[0], "+")
 	}
@@ -54,14 +55,16 @@ class CalculationTestCase: XCTestCase {
 		calculation.stringNumbers = ["3", "5"]
 		calculation.operators = ["+", "+"]
 
-		XCTAssertTrue(calculation.isExpressionCorrect)
+		XCTAssertTrue(calculation.canAddOperator)
 	}
 
 	func testGivenStringNumbersIsTreeOperatorIsPlus_WhenGAddingPlus_ThenExpressionIsNotCorrect() {
 		calculation.stringNumbers = ["3"]
-		calculation.addOperation("+")
 
-		XCTAssertFalse(calculation.isExpressionCorrect)
+		let operation = calculation.addOperator("+")
+
+		XCTAssertTrue(operation)
+		XCTAssertFalse(calculation.canAddOperator)
 	}
 
 	func testGivenStringNumbersIsTwentyTreeAndFiveOperatorIsPlus_WhenGettingResult_ThenTotalSouldBeTwentyHeight() {
