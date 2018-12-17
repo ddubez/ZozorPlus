@@ -19,7 +19,7 @@ class Calculation {
 	var operators: [String] = ["+"]
 
 	// total of calculation
-	var total = 0
+	var total: Int = 0
 
 	// text of calculation
 	var text: String {
@@ -48,12 +48,17 @@ class Calculation {
 	// MARK: - METHODS
 
 	// add a number
-	func addNewNumber(_ newNumber: String) {
+	func addNewNumber(_ newNumber: String) -> Bool {
 		if let stringNumber = stringNumbers.last {
 			var stringNumberMutable = stringNumber
 			stringNumberMutable += "\(newNumber)"
+			if Int(stringNumberMutable) == nil {
+				// Verify if number is not out of range
+				return false
+			}
 			stringNumbers[stringNumbers.count-1] = stringNumberMutable
 		}
+		return true
 	}
 
 	// add an operator in a calculation
@@ -67,16 +72,32 @@ class Calculation {
 	}
 
 	// calculate the total
-	func calculateTotal() {
-		for (counter, stringNumber) in stringNumbers.enumerated() {
-			if let number = Int(stringNumber) {
-				if operators[counter] == "+" {
-					total += number
-				} else if operators[counter] == "-" {
-					total -= number
+	func calculateTotal() -> Bool {
+		if canAddOperator {
+			for (counter, stringNumber) in stringNumbers.enumerated() {
+				if let number = Int(stringNumber) {
+					if operators[counter] == "+" {
+						if Int.max - number >= total {
+							// Verify if result is not out of range
+							total += number
+							} else {
+							total = 0
+							return false
+						}
+					} else if operators[counter] == "-" {
+						if Int.min + number <= total {
+							// Verify if result is not out of range
+							total -= number
+						} else {
+							total = 0
+							return false
+						}
+					}
 				}
 			}
+		return true
 		}
+		return false
 	}
 
 	// clear the calculation
@@ -95,7 +116,7 @@ class Calculation {
 				lastNumberMutable.removeLast(1)
 				stringNumbers[stringNumbers.count-1] = lastNumberMutable
 			}
-		} else {
+		} else if stringNumbers.count != 1 {
 			stringNumbers.removeLast(1)
 			operators.removeLast(1)
 		}

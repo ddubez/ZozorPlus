@@ -21,9 +21,12 @@ class ViewController: UIViewController {
     @IBAction func tappedNumberButton(_ sender: UIButton) {
 		// add the button corresponding number
 		for numberButton in numberButtons where sender == numberButton {
-			calculation.addNewNumber(numberButton.titleLabel!.text!)
-			updateDisplay()
-            }
+			if calculation.addNewNumber(numberButton.titleLabel!.text!) {
+				updateDisplay()
+            } else {
+				displayAlert(message: "Le nombre est trop grand")
+			}
+		}
     }
 
     @IBAction func plus() {
@@ -38,18 +41,22 @@ class ViewController: UIViewController {
 
     @IBAction func equal() {
 		// calculate the result
-		if calculation.canAddOperator {
-			calculation.calculateTotal()
+		if calculation.calculateTotal() {
 			textView.text += "=\(calculation.total)"
+			scrollText()
 			calculation.clear()
 		} else {
-			if calculation.stringNumbers.count == 1 {
+			switch calculation.canAddOperator {
+			case false where calculation.stringNumbers.count == 1:
 				displayAlert(message: "Démarrez un nouveau calcul !")
-			} else {
+			case true:
+				displayAlert(message: "Le resultat est hors limite !")
+			default:
 				displayAlert(message: "Entrez une expression correcte !")
 			}
 		}
     }
+
 	// MARK: - BONUS
 	@IBAction func deleteLast(sender: UIButton) {
 		// delete the last number or operator
@@ -62,6 +69,7 @@ class ViewController: UIViewController {
     private func updateDisplay() {
 		// update the textView
 		textView.text = calculation.text
+		scrollText()
     }
 
 	private func displayAlert(message: String) {
@@ -78,5 +86,10 @@ class ViewController: UIViewController {
 		} else {
 			displayAlert(message: "Expression incorrecte !")
 		}
+	}
+
+	private func scrollText() {
+		let textViewRange = NSRangeFromString(textView.text)
+		textView.scrollRangeToVisible(textViewRange)
 	}
 }
