@@ -48,6 +48,7 @@ class Calculation {
 	// MARK: - METHODS
 
 	// add a number
+	@discardableResult
 	func addNewNumber(_ newNumber: String) -> Bool {
 		if let stringNumber = stringNumbers.last {
 			var stringNumberMutable = stringNumber

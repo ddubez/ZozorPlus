@@ -19,18 +19,16 @@ class CalculationTestCase: XCTestCase {
 
 	func testGivenStringNumbersIsEmty_WhenAddingNumberTwo_ThenStringNumberShouldBeTwo() {
 
-		let action = calculation.addNewNumber("2")
+		calculation.addNewNumber("2")
 
-		XCTAssertTrue(action)
 		XCTAssertEqual(calculation.stringNumbers[0], "2")
 	}
 
 	func testGivenStringNumbersIsTree_WhenAddingNumberTwo_ThenStringNumberShouldBeThirtyTwo() {
 		calculation.stringNumbers[0] = "3"
 
-		let action = calculation.addNewNumber("2")
+		calculation.addNewNumber("2")
 
-		XCTAssertTrue(action)
 		XCTAssertEqual(calculation.stringNumbers[0], "32")
 	}
 

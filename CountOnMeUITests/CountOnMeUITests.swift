@@ -105,4 +105,22 @@ class CountOnMeUITests: XCTestCase {
 		XCTAssertTrue(app.alerts["Zéro!"].exists)
 		XCTAssert(app.alerts.element.staticTexts["Entrez une expression correcte !"].exists)
 	}
+
+	func testDisplayAlertForOutOfRangeResult() {
+		let app = XCUIApplication()
+
+		app.buttons["9"].tap()
+		for _ in 1...18 {
+			app.buttons["2"].tap()
+		}
+		app.buttons["+"].tap()
+		app.buttons["9"].tap()
+		for _ in 1...18 {
+			app.buttons["2"].tap()
+		}
+		app.buttons["="].tap()
+
+		XCTAssertTrue(app.alerts["Zéro!"].exists)
+		XCTAssert(app.alerts.element.staticTexts["Le resultat est hors limite !"].exists)
+	}
 }

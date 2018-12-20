@@ -89,6 +89,7 @@ class ViewController: UIViewController {
 	}
 
 	private func scrollText() {
+		// Automatically scroll textView when adding text at the bottom of UITextView
 		let textViewRange = NSRangeFromString(textView.text)
 		textView.scrollRangeToVisible(textViewRange)
 	}
